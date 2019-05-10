@@ -1,0 +1,262 @@
+<html>
+<head>
+    <style>
+        .slidecontainer {
+            width: 100%;
+        }
+
+        .redslider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 25px;
+            background: red;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .redslider:hover {
+            opacity: 1;
+        }
+
+        .redslider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: black;
+            cursor: pointer;
+        }
+
+        .redslider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .greenslider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 25px;
+            background: green;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .greenslider:hover {
+            opacity: 1;
+        }
+
+        .greenslider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: black;
+            cursor: pointer;
+        }
+
+        .greenslider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .blueslider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 25px;
+            background: blue;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .blueslider:hover {
+            opacity: 1;
+        }
+
+        .blueslider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: black;
+            cursor: pointer;
+        }
+
+        .blueslider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .messages {
+            text-align: center;
+            width: 25%;
+            padding: 1em;
+            border: 1px solid black;
+        }
+
+        .label {
+            text-align: center;
+            width: 10%;
+            padding: 1em;
+            border: 1px solid gray;
+        }
+    </style>
+    <title>RGB Clock Interface</title>
+</head>
+<body>
+<center>
+    <div class="container">
+        <!--<div class="input-fields">
+            <p>Type a mode and hit send:</p>
+            <input id="mode"/>
+            <button onclick="sendMode()">Send</button>
+        </div>-->
+
+
+        <!-- SOLID COLOR RGB SLIDERS -->
+        <div class="label">SOLID</div>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="0" class="redslider" id="redSlider">
+        </div>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="0" class="greenslider" id="greenSlider">
+        </div>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="0" class="blueslider" id="blueSlider">
+        </div>
+
+
+        <!-- GRADIENT COLOR RGB SLIDERS -->
+        <div class="label">GRADIENT START</div>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="0" class="redslider" id="redSliderStart">
+        </div>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="0" class="greenslider" id="greenSliderStart">
+        </div>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="0" class="blueslider" id="blueSliderStart">
+        </div>
+
+        <div class="label">GRADIENT END</div>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="0" class="redslider" id="redSliderEnd">
+        </div>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="0" class="greenslider" id="greenSliderEnd">
+        </div>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="0" class="blueslider" id="blueSliderEnd">
+        </div>
+
+    </div>
+</center>
+</body>
+<script>
+    var ws = new WebSocket("ws://localhost:8887");
+
+    //SOLID COLORS
+    document.getElementById("redSlider").oninput = function () {
+        sendRed();
+    };
+    document.getElementById("greenSlider").oninput = function () {
+        sendGreen();
+    };
+    document.getElementById("blueSlider").oninput = function () {
+        sendBlue();
+    };
+
+    function sendRed() {
+        var redValue = document.getElementById("redSlider").value;
+        ws.send("r=" + redValue);
+    }
+
+    function sendGreen() {
+        var greenValue = document.getElementById("greenSlider").value;
+        ws.send("g=" + greenValue);
+    }
+
+    function sendBlue() {
+        var blueValue = document.getElementById("blueSlider").value;
+        ws.send("b=" + blueValue);
+    }
+
+    //GRADIENT START
+    document.getElementById("redSliderStart").oninput = function () {
+        sendRedStart();
+    };
+    document.getElementById("greenSliderStart").oninput = function () {
+        sendGreenStart();
+    };
+    document.getElementById("blueSliderStart").oninput = function () {
+        sendBlueStart();
+    };
+
+    function sendRedStart() {
+        var redValue = document.getElementById("redSliderStart").value;
+        ws.send("rs=" + redValue);
+    }
+
+    function sendGreenStart() {
+        var greenValue = document.getElementById("greenSliderStart").value;
+        ws.send("gs=" + greenValue);
+    }
+
+    function sendBlueStart() {
+        var blueValue = document.getElementById("blueSliderStart").value;
+        ws.send("bs=" + blueValue);
+    }
+
+    //GRADIENT END
+    document.getElementById("redSliderEnd").oninput = function () {
+        sendRedEnd();
+    };
+    document.getElementById("greenSliderEnd").oninput = function () {
+        sendGreenEnd();
+    };
+    document.getElementById("blueSliderEnd").oninput = function () {
+        sendBlueEnd();
+    };
+
+    function sendRedEnd() {
+        var redValue = document.getElementById("redSliderEnd").value;
+        ws.send("re=" + redValue);
+    }
+
+    function sendGreenEnd() {
+        var greenValue = document.getElementById("greenSliderEnd").value;
+        ws.send("ge=" + greenValue);
+    }
+
+    function sendBlueEnd() {
+        var blueValue = document.getElementById("blueSliderEnd").value;
+        ws.send("be=" + blueValue);
+    }
+
+    function sendMode() {
+        var mode = document.getElementById("mode").value;
+        ws.send(mode);
+    }
+
+</script>
+</html>
